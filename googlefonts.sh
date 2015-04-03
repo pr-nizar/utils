@@ -26,8 +26,8 @@ _hgrepo="googlefontdirectory"
 
 clear;echo "Connecting to Mercurial server...."
 if [ -d $_hgrepo ] ; then
-	cd $_hgrepo
 	echo -e "------------------\nHere we go...\n------------------\n\e[32mUpdating the local clone: $PWD/$_hgrepo\e[39m"
+	cd $_hgrepo
 	hg pull -u || ( echo -e "\e[31mFailed to update local files.\nIf the problem persists remove the folder:\n$PWD/$_hgrepo\nor move to a new location then try again. \e[39m"; exit 77 )
 	echo "The local files have been updated."
 	cd ..
