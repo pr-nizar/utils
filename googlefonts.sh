@@ -37,17 +37,16 @@ else
 	hg  --debug -v clone $_hgroot $_hgrepo || (echo -e "\e[31mFailed to clone the repository to $PWD/$_hgrepo\e[39m"; exit 77 )
 	echo "Finished cloning into: $PWD/$_hgrepo"
 fi
-while true; do
-	read -p "Do you wish to install fonts [G]lobally or for the current [U]ser or [E]xit? [g/u/e] " ans
+while read -p "Do you wish to install fonts [G]lobally or for the current [U]ser or [E]xit? [g/u/e] " ans; do
 	case $ans in
-		[Gg]* ) _sc='sudo';_cc='install -m644';_tf='/usr/share/fonts/truetype/googlefonts/'; break;;
-		[Uu]* ) _sc='';_cc='cp';_tf='~/.fonts/truetype/googlefonts/'; break;;
+		[Gg]* ) _sc='sudo'; _cc='install -m644'; _tf='/usr/share/fonts/truetype/googlefonts/'; break;;
+		[Uu]* ) _sc=''; _cc='cp'; _tf='~/.fonts/truetype/googlefonts/'; break;;
 		[Ee]* ) exit;;
 		* ) echo -e "\e[32mPlease answer G or U or E.\e[39m";;
 	esac
 done
 echo -e "\e[32mCreating fonts folder at: $_tf\e[39m"
-$_sc mkdir -p _tf || ( echo -e "\e[31mFailed to create fonts folder.\e[39m"; exit 77 )
+$_sc mkdir -p $_tf || ( echo -e "\e[31mFailed to create fonts folder.\e[39m"; exit 77 )
 echo -e "\e[32mInstalling fonts.\e[39m"
 find $PWD/$_hgrepo/ -name "*.ttf" -exec $_sc $_cc {} $_tf \; || ( echo -e "\e[31mFailed to install fonts.\e[39m"; exit 77 )
 echo -e "\e[32mUpdating fonts cache.\e[39m"
