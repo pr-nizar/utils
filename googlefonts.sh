@@ -37,13 +37,17 @@ else
 	hg  --debug -v clone $_hgroot $_hgrepo || (echo -e "\e[31mFailed to clone the repository to $PWD/$_hgrepo\e[39m"; exit 77 )
 	echo "Finished cloning into: $PWD/$_hgrepo"
 fi
-while read -p "Do you wish to install fonts [G]lobally or for the current [U]ser or [E]xit? [g/u/e] " ans; do
-	case $ans in
-		[Gg]* ) _sc='sudo'; _cc='install -m644'; _tf='/usr/share/fonts/truetype/googlefonts/'; break;;
-		[Uu]* ) _sc=''; _cc='cp'; _tf='~/.fonts/truetype/googlefonts/'; break;;
-		[Ee]* ) exit;;
-		* ) echo -e "\e[32mPlease answer G or U or E.\e[39m";;
-	esac
+echo '------------------'
+PS3='Do you wish to install fonts globally or for the current user or exit? '
+options=("Globally" "Current user" "Exit")
+select opt in "${options[@]}"
+do
+	case $opt in
+		"Globally") _sc='sudo'; _cc='install -m644'; _tf='/usr/share/fonts/truetype/googlefonts/'; break;;
+		"Current user") _sc=''; _cc='cp'; _tf='~/.fonts/truetype/googlefonts/'; break;;
+		"Exit") exit;;
+        *) echo  -e  "\e[31mInvalid option; please choose (1), (2) or (3).\e[39m";;
+    esac
 done
 echo -e "\e[32mCreating fonts folder at: $_tf\e[39m"
 $_sc mkdir -p $_tf || ( echo -e "\e[31mFailed to create fonts folder.\e[39m"; exit 77 )
