@@ -4,6 +4,9 @@
 # Inspired by Andrew (http://www.webupd8.org/2011/01/automatically-install-all-google-web.html)
 # Modified by pr.nizar (http://pr-nizar.blogspot.com/2015/04/google-fonts-ubuntu.html#up)
 
+# We wrap this whole script in a function, so that we won't execute until the entire script is downloaded.
+run_it () {
+
 # Set a special exit status to exit any level of subshell
 set -E; trap '[ "$?" -ne 77 ] || exit 77' ERR
 
@@ -61,3 +64,6 @@ if which notify-send &>/dev/null ; then
 	notify-send "pr.nizar" "Finished installing Google Fonts\nBe sure to visit my blog at:\nhttp://pr-nizar.blogspot.com"
 fi
 exit 0
+}
+
+run_it
